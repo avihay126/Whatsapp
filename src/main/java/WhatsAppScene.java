@@ -4,16 +4,19 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.util.List;
 
 public class WhatsAppScene extends JPanel {
+    public static final Color WHITE = Color.white;
     private static final String KIND_OF_FONT = "Ariel";
-    private static final int FONT_SIZE_BUTTON = 18, SIZE_FONT_LABEL = 15,
-            OPEN_BUTTON_WIDTH = 180, OPEN_BUTTON_HEIGHT = 50, OPEN_BUTTON_Y = 0,
+    public static final String IMAGE_NAME ="whatsapp web.png";
+    private static final int FONT_SIZE_BUTTON = 18, SIZE_FONT_LABEL = 20,
+            OPEN_BUTTON_WIDTH = 180, OPEN_BUTTON_HEIGHT = 50, OPEN_BUTTON_Y = 450,
             TEXT_FIELD_WIDTH = 200, TEXT_FIELD_HEIGHT = 60,
-    CONNECTION_PRINT_WIDTH=180,CONNECTION_PRINT_HEIGHT=70,
-            ERROR_PRINT_WIDTH=180,ERROR_PRINT_HEIGHT=70;
+    CONNECTION_PRINT_WIDTH =180,CONNECTION_PRINT_HEIGHT=70,
+            ERROR_PRINT_WIDTH =180,ERROR_PRINT_HEIGHT=70;
 
     private ChromeDriver driver;
     private JButton openWhatsApp;
@@ -21,8 +24,10 @@ public class WhatsAppScene extends JPanel {
     private JLabel error;
     private JTextField phoneNumberField;
     private JTextField textField;
+    private JTextField welcomeSign;
     private WebElement user;
     private boolean connecting;
+    private ImageIcon backGround;
 
 
     public WhatsAppScene(int x, int y, int width, int height) {
@@ -32,14 +37,17 @@ public class WhatsAppScene extends JPanel {
         openWhatsAppWeb();
         this.setDoubleBuffered(true);
         this.setVisible(true);
+        this.backGround = new ImageIcon(IMAGE_NAME);
 
     }
 
     private void textFields() {
-        this.phoneNumberField = addTextField(this.getWidth() / 3 - TEXT_FIELD_WIDTH / 2, this.getHeight() / 3 - TEXT_FIELD_HEIGHT / 2, TEXT_FIELD_WIDTH, TEXT_FIELD_HEIGHT);
-        JLabel phoneNumber = addLabel("Enter Phone Number", this.phoneNumberField.getX(), this.phoneNumberField.getY() - TEXT_FIELD_HEIGHT, TEXT_FIELD_WIDTH, TEXT_FIELD_HEIGHT);
-        this.textField = addTextField(this.getWidth() * 2 / 3 - TEXT_FIELD_WIDTH / 2, this.getHeight() / 3 - TEXT_FIELD_HEIGHT / 2, TEXT_FIELD_WIDTH, TEXT_FIELD_HEIGHT);
-        JLabel textField=addLabel("Enter Your Text",this.textField.getX(),this.textField.getY()-TEXT_FIELD_HEIGHT,TEXT_FIELD_WIDTH,TEXT_FIELD_HEIGHT);
+        this.phoneNumberField = addTextField(this.getWidth() / 3 - TEXT_FIELD_WIDTH / 2, this.getHeight() / 2 - TEXT_FIELD_HEIGHT / 2, TEXT_FIELD_WIDTH, TEXT_FIELD_HEIGHT);
+        JLabel phoneNumber = addLabel("Enter Phone Number", this.phoneNumberField.getX(), this.phoneNumberField.getY() - TEXT_FIELD_HEIGHT*5/6, TEXT_FIELD_WIDTH, TEXT_FIELD_HEIGHT);
+        this.textField = addTextField(this.getWidth() * 2 / 3 - TEXT_FIELD_WIDTH / 2, this.getHeight() / 2 - TEXT_FIELD_HEIGHT / 2, TEXT_FIELD_WIDTH, TEXT_FIELD_HEIGHT);
+        JLabel textField=addLabel("Enter Your Text",this.textField.getX(),this.phoneNumberField.getY() - TEXT_FIELD_HEIGHT*5/6,TEXT_FIELD_WIDTH,TEXT_FIELD_HEIGHT);
+        JLabel welcomeSign = addLabel("Hey! Welcome to our whatsappBot", this.phoneNumberField.getX(), TEXT_FIELD_WIDTH, TEXT_FIELD_WIDTH, TEXT_FIELD_HEIGHT);
+
     }
     private boolean noNull(String s){
         return s.equals("");
@@ -172,7 +180,7 @@ public class WhatsAppScene extends JPanel {
 
     public JLabel addLabel(String labelText, int x, int y, int width, int height) {
         JLabel label = new JLabel(labelText);
-        label.setForeground(Color.black);
+        label.setForeground(WHITE);
         Font font = new Font(KIND_OF_FONT, Font.BOLD, SIZE_FONT_LABEL);
         label.setFont(font);
         label.setBounds(x, y, width, height);
@@ -187,6 +195,10 @@ public class WhatsAppScene extends JPanel {
         textField.setFont(font);
         this.add(textField);
         return textField;
+    }
+    public void paintComponent(Graphics graphics) {
+        super.paintComponent(graphics);
+        graphics.drawImage(this.backGround.getImage(), this.getX(), this.getY(), this.getWidth(), this.getHeight(), null);
     }
 
 }
